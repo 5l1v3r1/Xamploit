@@ -1,17 +1,25 @@
 <?php
 
 function banner(){
+    $target = '192.168.0.155:155';
+    $dl = 'dirlist.txt';
+    $pl = 'phplist.txt';
+    $dlx = count(file($dl));
+    $plx = count(file($pl));
     @system("clear");
     include 'config.php';
     print "\n";
     print "$cyan      ▄  ██   █▀▄▀█$red █ ▄▄  █    ████▄ ▄█    ▄▄▄▄▀ \n";
-    print "$cyan  ▀▄   █ █ █  █ █ █$red █   █ █    █   █ ██ ▀▀▀ █    \n";
-    print "$cyan    █ ▀  █▄▄█ █ ▄ █$red █▀▀▀  █    █   █ ██     █    \n";
-    print "$cyan   ▄ █   █  █ █   █$red █     ███▄ ▀████ ▐█    █     \n";
-    print "$cyan  █   ▀▄    █    █ $red  █        ▀       ▐   ▀      \n";
-    print "$cyan   ▀       █    ▀  $red   ▀                          \n";
-    print "$cyan          ▀        $white                            \n";
+    print "$cyan  ▀▄   █ █ █  █ █ █$red █   █ █    █   █ ██ ▀▀▀ █ \n";
+    print "$cyan    █ ▀  █▄▄█ █ ▄ █$red █▀▀▀  █    █   █ ██     █ \n";
+    print "$cyan   ▄ █   █  █ █   █$red █     ███▄ ▀████ ▐█    █ \n";
+    print "$cyan  █   ▀▄    █    █ $red  █        ▀       ▐   ▀ \n";
+    print "$cyan   ▀       █    ▀  $red   ▀ \n";
+    print "$cyan          ▀        $white \n";
+    print "$white        Dir : $dlx List ~ File : $plx List \n";
+    print "$white           Target : $target \n";
     print "\n";
+    sleep(5);
 }
 
 function dirscan(){
@@ -28,7 +36,8 @@ function dirscan(){
     $b = filesize("$list");
     $c = fread($a,$b);
     $lists = explode("\n",$c);
-    print "\n$cyan [$yellow *$cyan ]$white Directory Brute ...\n";
+    print "\n\n$cyan [$yellow *$cyan ]$white Directory Brute ...\n";
+    sleep(1);
     foreach($lists as $dir){
         $log = "$targetnya/$dir";
         $ch = curl_init("$log");
@@ -62,7 +71,8 @@ function phpscan(){
     $b = filesize("$list");
     $c = fread($a,$b);
     $lists = explode("\n",$c);
-    print "\n$cyan [$yellow *$cyan ]$white PHP file Scanning ...\n";
+    print "\n\n$cyan [$yellow *$cyan ]$white PHP file Scanning ...\n";
+    sleep(1);
     foreach($lists as $dir){
         $log = "$targetnya/$dir";
         $ch = curl_init("$log");
@@ -84,62 +94,32 @@ function phpscan(){
 
 function dldir(){
     include 'config.php';
-    $target = '192.168.0.155:155';
     $list = 'dir.txt';
-    if(!preg_match("/^http:\/\//",$target) AND !preg_match("/^https:\/\//",$target)){
-        $targetnya = "http://$target";
-    }
-    else{
-        $targetnya = $target;
-    }
     $a = fopen("$list","r");
     $b = filesize("$list");
     $c = fread($a,$b);
     $lists = explode("\n",$c);
-    print "\n$cyan [$yellow *$cyan ]$white Cloning all Directory ...\n";
+    print "\n\n$cyan [$yellow *$cyan ]$white Cloning all Directory ...\n";
+    sleep(1);
     foreach($lists as $dir){
-        print "\n$cyan [$okegreen Cloning$cyan ]$red >$white $targetnya/$dir";
-        @system("wget -q -r $targetnya/$dir");
-    }
-}
-
-function exphp(){
-    $target = '192.168.0.155:155';
-    $list = 'php.txt';
-    if(!preg_match("/^http:\/\//",$target) AND !preg_match("/^https:\/\//",$target)){
-        $targetnya = "http://$target";
-    }
-    else{
-        $targetnya = $target;
-    }
-    $a = fopen("$list","r");
-    $b = filesize("$list");
-    $c = fread($a,$b);
-    $lists = explode("\n",$c);
-    print "\n$cyan [$yellow *$cyan ]$white Execute PHP file ...\n";
-    foreach($lists as $php){
-        $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL,$targetnya.'/'.$php);
-        $result=curl_exec($ch)."\n";
-        curl_close($ch);
-        print $result;
+        print "\n$cyan [$okegreen Cloning$cyan ]$red >$white $dir";
+        @system("wget -qr $dir");
     }
 }
 
 function result(){
     include 'config.php';
-    print "\n$cyan [$okegreen *$cyan ]$white Directory list reported to dir.txt\n";
-    print "\n$cyan [$okegreen *$cyan ]$white PHP file list reported to php.txt\n";
-    print "\n$cyan [$okegreen *$cyan ]$white Directory clone reported to 192.168.0.155:155\n\n";
+    sleep(1);
+    print "\n$cyan [$okegreen *$cyan ]$white Directory list reported to dir.txt";sleep(1);
+    print "\n$cyan [$okegreen *$cyan ]$white PHP file list reported to php.txt";sleep(1);
+    print "\n$cyan [$okegreen *$cyan ]$white Directory clone reported to 192.168.0.155:155\n";sleep(1);
+    print "\n$cyan [$okegreen *$cyan ]$white ALL DONE, SIR !!\n\n";
 }
 
 banner();
 dirscan();
 phpscan();
 dldir();
-exphp();
 result();
 
 ?>
