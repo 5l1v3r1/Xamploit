@@ -1,6 +1,6 @@
 <?php
 
-$target = 'localhost:8080';
+$target = '192.168.0.155:155';
 $dl = 'dirlist.txt';
 $pl = 'phplist.txt';
 $cl = 'dir.txt';
