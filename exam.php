@@ -18,7 +18,6 @@ print "$cyan   ▀       █    ▀  $red   ▀ \n";
 print "$cyan          ▀        $white \n";
 print "$white        Dir : $dlx List ~ File : $plx List \n";
 print "$white           Target : $target \n";
-print "\n";
 sleep(5);
 if(!preg_match("/^http:\/\//",$target) AND !preg_match("/^https:\/\//",$target)){
         $targetnya = "http://$target";
@@ -33,8 +32,8 @@ $dllists = explode("\n",$dlc);
 print "\n\n$cyan [$yellow *$cyan ]$white Directory Brute ...\n";
 sleep(1);
 foreach($dllists as $dir){
-    $log = "$targetnya/$dir";
-    $ch = curl_init("$log");
+    $direct = "$targetnya/$dir";
+    $ch = curl_init("$direct");
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_exec($ch);
@@ -42,11 +41,11 @@ foreach($dllists as $dir){
     curl_close($ch);
     if($httpcode == 200){
         $handle = fopen("dir.txt", "a+");
-        fwrite($handle, "$log\n");
-        print "\n$cyan [$okegreen OK$cyan ]$red >$white $log";
+        fwrite($handle, "$direct\n");
+        print "\n$cyan [$okegreen OK$cyan ]$red >$white $direct";
     }
     else{
-        print "\n$cyan [$red ERROR$cyan ]$red >$white $log";
+        print "\n$cyan [$red ERROR$cyan ]$red >$white $direct";
     }
 }
 $pla = fopen("$pl","r");
@@ -55,9 +54,9 @@ $plc = fread($pla,$plb);
 $pllists = explode("\n",$plc);
 print "\n\n$cyan [$yellow *$cyan ]$white PHP file Scanning ...\n";
 sleep(1);
-foreach($pllists as $dir){
-    $log = "$targetnya/$dir";
-    $ch = curl_init("$log");
+foreach($pllists as $php){
+    $phpfile = "$targetnya/$php";
+    $ch = curl_init("$phpfile");
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_exec($ch);
@@ -65,11 +64,11 @@ foreach($pllists as $dir){
     curl_close($ch);
     if($httpcode == 200){
         $handle = fopen("php.txt", "a+");
-        fwrite($handle, "$log\n");
-        print "\n$cyan [$okegreen OK$cyan ]$red >$white $log";
+        fwrite($handle, "$phpfile\n");
+        print "\n$cyan [$okegreen OK$cyan ]$red >$white $phpfile";
     }
     else{
-        print "\n$cyan [$red ERROR$cyan ]$red >$white $log";
+        print "\n$cyan [$red ERROR$cyan ]$red >$white $phpfile";
     }
 }
 $cla = fopen("$cl","r");
