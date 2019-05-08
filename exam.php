@@ -131,8 +131,13 @@ function dirclone(){
         $clc = fread($cla,$clb);
         $cllists = explode("\n",$clc);
         foreach($cllists as $dir){
-            print "\n$cyan [$okegreen Cloning$cyan ]$red >$white $dir";
-            @system("wget -qr $dir");
+            if ($dir == ''){
+                cmd();
+            }
+            else{
+                print "\n$cyan [$okegreen Cloning$cyan ]$red >$white $dir";
+                @system("wget -qr $dir");
+            }
         }
         if (file_exists($target)){
             print "\n$cyan [$okegreen *$cyan ]$white Directory clone reported to $target\n";sleep(1);
@@ -230,6 +235,5 @@ function cmd(){
 
 index();
 cmd();
-
 
 ?>
