@@ -199,8 +199,26 @@ function updatelist(){
     print "$cyan [$yellow *$cyan ]$white Downloading Wordlist from Github Server ...\n\n";sleep(1);
     print "$red >$white $dirwordlist\n";
     @system("wget -q $dirwordlist");
+    if (file_exists($dl)){
+        sleep(1);
+    }
+    else{
+        print "\n$white    error downloading$red $dl\n";
+        sleep(1);
+        print "$white    type$cyan [$yellow update$cyan ]$white again or check your internet connection\n\n";
+        sleep(1);
+    }
     print "$red >$white $phpwordlist\n";
     @system("wget -q $phpwordlist");
+    if (file_exists($pl)){
+        sleep(1);
+    }
+    else{
+        print "\n$white    error downloading$red $pl\n";
+        sleep(1);
+        print "$white    type$cyan [$yellow update$cyan ]$white again or check your internet connection\n\n";
+        sleep(1);
+    }
     print "\n";
 }
 
