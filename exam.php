@@ -188,6 +188,8 @@ function help(){
 
 function updatelist(){
     include 'config.php';
+    @system("rm -rf $dl");
+    @system("rm -rf $pl");
     $url = 'raw.githubusercontent.com';
     $server = "https://$url";
     $dirfile = "N1ght420/Xamploit/master/$dl";
