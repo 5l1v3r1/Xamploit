@@ -56,7 +56,7 @@ function dirbrute(){
     else{
         print "\n$white    file$red $dl$white not found\n";
         sleep(1);
-        print "$white    try to download or create $dl\n\n";
+        print "$white    type$cyan [$yellow update$cyan ]$white or create $dl\n\n";
         sleep(1);
     }
 }
@@ -108,7 +108,7 @@ function filebrute(){
         else{
             print "\n$white    file$red $pl$white not found\n";
             sleep(1);
-            print "$white    try to download or create $pl\n\n";
+            print "$white    type$cyan [$yellow update$cyan ]$white or create $pl\n\n";
             sleep(1);
         }
     }
@@ -182,7 +182,24 @@ function help(){
     print "$cyan  [$yellow*$cyan]$white runall$red     =$white   Automaticaly Run Tasks\n\n";
     print "$cyan  [$yellow*$cyan]$white help$red       =$white   Show Help\n";
     print "$cyan  [$yellow*$cyan]$white info$red       =$white   Show Info\n";
+    print "$cyan  [$yellow*$cyan]$white update$red     =$white   Update Wordlist\n";
     print "$cyan  [$yellow*$cyan]$white exit$red       =$white   Exit\n\n\n";
+}
+
+function updatelist(){
+    include 'config.php';
+    $url = 'raw.githubusercontent.com';
+    $server = "https://$url";
+    $dirfile = "N1ght420/Xamploit/master/$dl";
+    $phpfile = "N1ght420/Xamploit/master/$pl";
+    $dirwordlist = "$server/$dirfile";
+    $phpwordlist = "$server/$phpfile";
+    print "$cyan [$yellow *$cyan ]$white Downloading Wordlist from Github Server ...\n\n";sleep(1);
+    print "$red >$white $dirwordlist\n";
+    @system("wget -q $dirwordlist");
+    print "$red >$white $phpwordlist\n";
+    @system("wget -q $phpwordlist");
+    print "\n";
 }
 
 function cmd(){
@@ -217,6 +234,11 @@ function cmd(){
     elseif ($cmd == 'info' OR $cmd == 'i' OR $cmd == 'I'){
         index();
         info();
+        cmd();
+    }
+    elseif ($cmd == 'update' OR $cmd == 'u' OR $cmd == 'U'){
+        index();
+        updatelist();
         cmd();
     }
     elseif ($cmd == 'clear' OR $cmd == 'c' OR $cmd == 'C'){
