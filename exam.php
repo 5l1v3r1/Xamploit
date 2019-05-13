@@ -9,7 +9,7 @@ function index(){
     print "$cyan    █ ▀  █▄▄█ █ ▄ █$red █▀▀▀  █    █   █ ██     █ \n";
     print "$cyan   ▄ █   █  █ █   █$red █     ███▄ ▀████ ▐█    █ \n";
     print "$cyan  █   ▀▄    █    █ $red  █        ▀       ▐   ▀ \n";
-    print "$cyan   ▀       █    ▀  $red   ▀$white     Ver.2.0\n";
+    print "$cyan   ▀       █    ▀  $red   ▀$white     Ver.2.5\n";
     print "$cyan          ▀        $white \n\n";
 }
 
@@ -25,26 +25,30 @@ function dirbrute(){
         $dlc = fread($dla,$dlb);
         $dllists = explode("\n",$dlc);
         foreach($dllists as $dir){
-            $direct = "$targetnya/$dir";
-            $ch = curl_init("$direct");
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_exec($ch);
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            if($httpcode == 200){
-                $handle = fopen("$cl", "a+");
-                $handle1 = fopen("$d", "a+");
-                fwrite($handle, "$direct\n");
-                fwrite($handle1, "$dir\n");
-                print "\n$cyan [$okegreen OK$cyan ]$red >$white $direct";
-            }
-            else{
-                print "\n$cyan [$red ERROR$cyan ]$red >$white $direct";
+            foreach($dllists as $dir1){
+                foreach($dllists as $dir2){
+                $direct = "$targetnya/$dir/$dir1/$dir2";
+                $ch = curl_init("$direct");
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_exec($ch);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+                if($httpcode == 200){
+                    $handle = fopen("$cl", "a+");
+                    $handle1 = fopen("$d", "a+");
+                    fwrite($handle, "$direct\n");
+                    fwrite($handle1, "$dir/$dir1/$dir2\n");
+                    print "\n$cyan [$okegreen OK$cyan ]$red >$white $direct";
+                }
+                else{
+                    print "\n$cyan [$red ERROR$cyan ]$red >$white $direct";
+                }
+                }
             }
         }
         if (file_exists($d)){
-            print "\n\n$cyan [$okegreen *$cyan ]$white Directory list reported to $d";sleep(1);
+            print "\n\n$cyan [$okegreen *$cyan ]$white Directory list reported to $d\n\n";sleep(1);
         }
         else{
             print "\n\n$white    error creating$red $d\n";
@@ -96,7 +100,7 @@ function filebrute(){
                 }
             }
             if (file_exists($p)){
-                print "\n\n$cyan [$okegreen *$cyan ]$white Directory list reported to $p";sleep(1);
+                print "\n\n$cyan [$okegreen *$cyan ]$white Directory list reported to $p\n\n";sleep(1);
             }
             else{
                 print "\n\n$white    error creating$red $p\n";
@@ -140,7 +144,7 @@ function dirclone(){
             }
         }
         if (file_exists($target)){
-            print "\n$cyan [$okegreen *$cyan ]$white Directory clone reported to $target\n";sleep(1);
+            print "\n$cyan [$okegreen *$cyan ]$white Directory clone reported to $target\n\n";sleep(1);
         }
         else{
             print "\n\n$white    error cloning$red $target\n";
@@ -269,9 +273,19 @@ function cmd(){
         exit();
     }
     else{
-        print "\n$white    command$red $cmd$white not found\n";
-        print "$white    type$cyan [$yellow help$cyan ]$white to show help\n\n";
-        cmd();
+        print "\n$cyan [$yellow ?$cyan ]$white Use System Command (Y/n) ?\n$red   >$white ";
+        $com = trim(fgets(STDIN));
+        if ($com == 'y' OR $com == 'Y'){
+            print "\n";
+            @system("$cmd");
+            print "\n";
+            cmd();
+        }
+        else{
+            print "\n$white    command$red $cmd$white not found\n";
+            print "$white    type$cyan [$yellow help$cyan ]$white to show help\n\n";
+            cmd();
+        }
     }
 }
 
